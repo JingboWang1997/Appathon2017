@@ -1,5 +1,5 @@
 var express = require('express');
-var app = require('express')();
+var app = express();
 var http = require('http').Server(app);
 var port = process.env.PORT || 3000;
 
@@ -9,9 +9,7 @@ app.get('/',function(req,res) {
     res.sendFile(__dirname + '/public/views/index.html');
 });
 
-http.listen(port, function(){
-    console.log('listening on *:' + port);
-});
+app.listen(port);
 
 'use strict';
 
@@ -48,7 +46,7 @@ let response_handler = function (response) {
         console.log('\nJSON Response:\n');
         //console.log(body.value);
         for (var i = 0; i < body.value.length; i++) {
-            console.log(body.value[i].contentUrl);
+            //console.log(body.value[i].contentUrl);
         }
         //console.log(body.value[0].contentUrl);
     });
@@ -84,3 +82,44 @@ if (subscriptionKey.length === 32) {
     console.log('Invalid Bing Search API subscription key!');
     console.log('Please paste yours into the source code.');
 }
+
+// Youtube API
+//Authentication
+var google = require('googleapis');
+
+var API_KEY = 'AIzaSyDONLs1uaIFJZ35I33XPI21BdaQccYKa3s'; // specify your API key here
+
+var src = "";
+// Search for a specified string.
+function search() {
+  var q = 'dogs';
+  var request = google.youtube('v3');
+  request.search.list({
+    key: API_KEY,
+    q: q,
+    type: 'video',
+    part: 'snippet'
+  }, function(err, response) {
+    if (err) {
+      console.log('The API returned an error: ' + err);
+      return;
+    }
+    var videos = response.items;
+    if (videos.length == 0) {
+      console.log('No videos found.');
+    } else {
+      var id = videos[0].id.videoId;
+      //console.log(id);
+      src = 'https://www.youtube.com/embed/' + id;
+      console.log(src);
+    }
+});
+}
+
+function hostVideo() {
+    app.get('/video', function(req, res){
+      res.send(src);
+    });
+}
+hostVideo();
+search();
