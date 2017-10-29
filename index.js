@@ -2,6 +2,20 @@ var express = require('express');
 var app = require('express')();
 var http = require('http').Server(app);
 var port = process.env.PORT || 3000;
+var bodyParser = require('body-parser');
+
+//Note that in version 4 of express, express.bodyParser() was
+//deprecated in favor of a separate 'body-parser' module.
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+
+app.post('/action', function(req, res) {
+	console.log("test+++++++++++++++++++++++++++++++++++++++++++++++");
+	console.log(req.body.word);
+	res.send("test");
+ 	//	console.log('You sent the name "' + req.body.name + '".');
+});
 
 app.use(express.static(__dirname + '/public'));
 
@@ -9,9 +23,10 @@ app.get('/',function(req,res) {
     res.sendFile(__dirname + '/public/views/index.html');
 });
 
-http.listen(port, function(){
-    console.log('listening on *:' + port);
-});
+// http.listen(port, function(){
+//     console.log('listening on *:' + port);
+// });
+app.listen(port);
 
 'use strict';
 
@@ -39,13 +54,13 @@ let response_handler = function (response) {
         body += d;
     });
     response.on('end', function () {
-        console.log('\nRelevant Headers:\n');
-        for (var header in response.headers)
+        // console.log('\nRelevant Headers:\n');
+        // for (var header in response.headers)
             // header keys are lower-cased by Node.js
-            if (header.startsWith("bingapis-") || header.startsWith("x-msedge-"))
-                 console.log(header + ": " + response.headers[header]);
+            // if (header.startsWith("bingapis-") || header.startsWith("x-msedge-"))
+            //      console.log(header + ": " + response.headers[header]);
         body = JSON.parse(body);
-        console.log('\nJSON Response:\n');
+        // console.log('\nJSON Response:\n');
         //console.log(body.value);
         for (var i = 0; i < body.value.length; i++) {
             console.log(body.value[i].contentUrl);

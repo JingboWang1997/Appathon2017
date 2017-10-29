@@ -52,8 +52,9 @@
 
 </script>
 
-<script src="../controls/event.js"></script>
+
 <script src="../controls/libraries/jquery-3.2.1.min.js"></script>
+<script src="../controls/event.js"></script>
 
 <html lang="en">
 
@@ -286,12 +287,12 @@ div.panel {
       <!-- Search bar -->
       <div class="floating">
         <div class="wrap">
-          <div class="search">
-            <input id="keyword" type="text" class="searchTerm" placeholder=" What are you looking for?">
+          <form class="search" action="/action" method="POST">
+            <input id="keyword" type="text" name="word" class="searchTerm" placeholder=" What are you looking for?">
             <button type="submit" class="searchButton">
               <i class="fa fa-search"></i>
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
