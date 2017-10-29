@@ -90,7 +90,6 @@ app.post('', function(req, res) {
     // console.log(result);
     // console.log(videoArr);
     //hostResources(arr);
-    //res.send("");
     return;
 });
 
