@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<script>
+    window.pAsyncInit = function() {
+        PDK.init({
+            appId: "4930953034099344487", // Change this
+            cookie: true
+        });
+    };
+
+    (function(d, s, id){
+        var js, pjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//assets.pinterest.com/sdk/sdk.js";
+        pjs.parentNode.insertBefore(js, pjs);
+    }(document, 'script', 'pinterest-jssdk'));
+</script>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
