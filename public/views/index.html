@@ -16,14 +16,16 @@
   <title>Document</title>
 
   <style>
+
+  /*Top bar*/
   .first {
+      position: fixed;
       background-color: lightgrey;
       width: 100%;
       height: 75px;
       padding: 0px;
       margin: 0px;
       overflow: hidden;
-      /*position: absolute;*/
   }
 
   .button {
@@ -78,30 +80,119 @@
 
   /*Resize the wrap to see the search bar change!*/
   .wrap{
-    /*display: inline-block;*/
     width: 30%;
     height: 100px;
     position: absolute;
     top: 20px;
-    /*left: 50%;*/
-    /*transform: translate(-50%, -50%);*/
   }
 
+  /*Image containers*/
   .floating-box {
     display: inline-block;
     width: 200px;
-    /*height: 200px;*/
     margin: 10px;
-    /*object-fit: fill;*/
     overflow: hidden;
-    /*border: 3px solid #73AD21;*/
 }
 
+  /*Make images fit containers^^*/
   .cover {
     width:192px;
     height:108px;
     object-fit: fill;
   }
+
+/* Style the tab */
+  div.tab {
+    position: fixed;
+    top: 75px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    width: 100%;
+  }
+
+/* Style the buttons inside the tab */
+  div.tab button {
+    /*position: fixed;*/
+    /*top: 75px;*/
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    position: relative;
+    top: 120px;
+    z-index: -1;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    -webkit-animation: fadeEffect 1s;
+    animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+/* Fade in tabs */
+@-webkit-keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Style the buttons that are used to open and close the accordion panel */
+button.accordion {
+  position: fixed;
+  bottom: 50%;
+  right: 0px;
+  /*background-color: #eee;*/
+  /*color: #444;*/
+  cursor: pointer;
+  padding: 18px;
+  width: 100px;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+  z-index: 5;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+button.accordion.active, button.accordion:hover {
+    background-color: #ccc;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+div.panel {
+  position: fixed;
+    padding: 0 18px;
+    background-color: lightgrey;
+    display: none;
+    bottom: 0px;
+    right: 0px;
+    width: 500px;
+    height: 500px;
+}
 
   ul {
       list-style-type: none;
@@ -136,12 +227,14 @@
 
 
 <body>
-    <!-- Our Project -->
+    <!-- Top bar -->
+    <!-- Title -->
     <div class="first">
       <div class="floating">
         <img id="title" src="../resources/Title.png" alt="Title" style="width:350px;">
       </div>
 
+      <!-- Search bar -->
       <div class="floating">
         <div class="wrap">
           <div class="search">
@@ -152,19 +245,17 @@
           </div>
         </div>
       </div>
-
     </div>
 
-    <ul>
-      <li>Images</li>
-      <li>Videos</li>
-    </ul>
-
+    <!-- Tabs -->
     <div class="tab">
-      <button class="tablinks" onclick="switchFilter(event, 'Images')">Images</button>
+      <button class="tablinks" onclick="switchFilter(event, 'Images')" id="defaultOpen">Images</button>
       <button class="tablinks" onclick="switchFilter(event, 'Videos')">Videos</button>
     </div>
 
+    <!-- <div class="panel">STUFF</div> -->
+
+    <!-- Images Content -->
     <div id="Images" class="tabcontent">
 
     <div class="floating-box"><img class="cover" src="https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Common-dog-behaviors-explained.jpg?itok=FSzwbBoi" alt="image" style="width:100%"></div>
@@ -205,13 +296,23 @@
     <div class="floating-box"><iframe id="test" width="420" height="315" src="https://www.youtube.com/embed/2J5GzHoKl1Q"></iframe>
     </div>
 
+    <!-- Videos Content -->
     <div id="Videos" class="tabcontent">
-        <p>Insert Videos</p>
+
+        <div class="floating-box"><iframe class="cover" width="420" height="315" src="https://www.youtube.com/embed/XGSy3_Czz8k" style="object-fit:contain"></iframe></div>
+        <div class="floating-box"><iframe class="cover" width="420" height="315" src="https://www.youtube.com/embed/XGSy3_Czz8k" style="object-fit:contain"></iframe></div>
+        <div class="floating-box"><iframe class="cover" width="420" height="315" src="https://www.youtube.com/embed/XGSy3_Czz8k" style="object-fit:contain"></iframe></div>
+        <div class="floating-box"><iframe class="cover" width="420" height="315" src="https://www.youtube.com/embed/XGSy3_Czz8k" style="object-fit:contain"></iframe></div>
+
     </div>
 
+  <!-- Notepad button -->
   <div class="button">
     <img id="button" src="../resources/PlusSign.png" alt="PlusSign" style="width:50px;height:50px;">
   </div>
+
+  <button class="accordion"><img src="../resources/PlusSign.png" alt="PlusSign" style="width:50px;height:50px;"></button>
+  <div class="panel">STUFF</div>
 
 </body>
 </html>
