@@ -2,10 +2,16 @@ $(document).ready(function() {
     $(".searchButton").click(function() {
         console.log("first test");
         $.get('http://127.0.0.1:3000/resources/', {}, function(data){
-            console.log(data);
             console.log("test");
-            //console.log(data.video.length);
-            //src = 'https://www.youtube.com/embed/' + id;
+            if (typeof(data.video) == "undefined" ) {
+                console.log('rerun, undefined');
+            } else {
+                //console.log(data.video[0]);
+                for (var a = 0; a < data.video.length; a++) {
+                    var id = "#video" + a;
+                    $(id).attr("src",data.video[a]);
+                }
+            }
         });
     });
 
