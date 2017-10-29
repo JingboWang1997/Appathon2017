@@ -119,7 +119,7 @@ let subscriptionKey = '061cc495fdf54b1ca1161bc604b6d533';
 let host = 'api.cognitive.microsoft.com';
 let path = '/bing/v7.0/images/search';
 
-let term = 'puppies';
+let term = 'brainstorm';
 
 let response_handler = function (response) {
     let body = '';
