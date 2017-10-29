@@ -3,7 +3,7 @@ var localData;
 $(document).ready(function() {
     $(".searchButton").click(function() {
         //console.log("first test"); //appathon2017.azurewebsites.net
-        $.get('http://appathon2017.azurewebsites.net/resources/', {}, function(data){
+        $.get('https://appathon2017.azurewebsites.net/resources/', {}, function(data){
         	localData = data;
             if (typeof(data.video) == "undefined" ) {
                 console.log('rerun, undefined');
