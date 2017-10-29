@@ -31,10 +31,14 @@
       document.getElementById(filter).style.display = "block";
       evt.currentTarget.className += " active";
       // document.getElementById("defaultOpen").click();
+    }
 
+    function notepad() {
       // Opening/Closing Notepad
       var acc = document.getElementsByClassName("accordion");
       var i;
+
+      var main = document.getElementById("Images");
 
       for (i = 0; i < acc.length; i++) {
         acc[i].onclick = function() {
@@ -43,11 +47,53 @@
           var panel = this.nextElementSibling;
           if (panel.style.display === "block") {
             panel.style.display = "none";
+            main.style.marginRight = "auto";
           } else {
             panel.style.display = "block";
+            main.style.marginRight = "25%";
           }
         }
       }
+    }
+
+    // Make image enlarge on click
+    function openImage(img) {
+      // var panel = document.getElementById("imgPanel");
+      // panel.style.display = "block";
+      // panel.style.width = 200;
+      // panel.style.height = 200;
+    }
+
+    // Open Image in panel
+    function openImagePanel(img) {
+        var modal = document.getElementById('modal');
+        var modalImg = document.getElementById('img01');
+        modal.style.display = "block";
+        modalImg.src = img.src;
+    }
+
+    // Close Image Panel
+    function closeImagePanel() {
+      var span = document.getElementsByClassName("close")[0];
+      var modal = document.getElementById("modal");
+      modal.style.display = "none";
+    }
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev, el) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+      var panel = document.getElementById("panelContent");
+      var nodeCopy = document.getElementById(data).cloneNode(true);
+      nodeCopy.id = "newId";
+      panel.appendChild(nodeCopy);
     }
 
 </script>
@@ -69,12 +115,13 @@
   /*Top bar*/
   .first {
       position: fixed;
-      background-color: lightgrey;
+      background-color: #cce2e8;
       width: 100%;
       height: 75px;
       padding: 0px;
       margin: 0px;
       overflow: hidden;
+      z-index: 5;
   }
 
   .button {
@@ -136,19 +183,76 @@
   }
 
   /*Image containers*/
-  .floating-box {
+  div.floating-box {
     display: inline-block;
     width: 200px;
     margin: 10px;
-    overflow: hidden;
+    /*overflow: visible;*/
+    cursor: pointer;
+    transition: 0.3s;
 }
+
+  div.floating-box:hover {
+    width: 200px;
+    /*opacity: 0.8;*/
+  }
 
   /*Make images fit containers^^*/
   .cover {
     width:192px;
     height:108px;
     object-fit: fill;
+    cursor: pointer;
   }
+
+  .cover:hover {
+    width:212px;
+    height:118px;
+  }
+
+/*Style modal*/
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  top: 125px;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+  z-index: 6;
+}
+
+/*Modal Content*/
+.modal_content {
+  margin:auto;
+  overflow: hidden;
+  object-fit: contain;
+  padding: 75px;
+  display: block;
+  z-index: 6;
+  width:50%;
+  max-width: 700px;
+  max-height: 500px;
+}
+
+/* The Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 /* Style the tab */
   div.tab {
@@ -156,14 +260,13 @@
     top: 75px;
     overflow: hidden;
     border: 1px solid #ccc;
-    background-color: #f1f1f1;
+    background-color: #e4f1f2;
     width: 100%;
+    z-index: 5;
   }
 
 /* Style the buttons inside the tab */
   div.tab button {
-    /*position: fixed;*/
-    /*top: 75px;*/
     background-color: inherit;
     float: left;
     border: none;
@@ -188,7 +291,7 @@ div.tab button.active {
 .tabcontent {
     position: relative;
     top: 120px;
-    z-index: -1;
+    z-index: 1;
     margin-left: auto;
     margin-right: auto;
     padding: 6px 12px;
@@ -212,13 +315,13 @@ div.tab button.active {
 /* Style the buttons that are used to open and close the accordion panel */
 button.accordion {
   position: fixed;
-  bottom: 50%;
-  right: 0px;
-  /*background-color: #eee;*/
-  /*color: #444;*/
+  bottom: 5px;
+  right: 5px;
   cursor: pointer;
-  padding: 18px;
-  width: 100px;
+  padding: 0px;
+  margin: 0px;
+  width: 50px;
+  height: 50px;
   text-align: left;
   border: none;
   outline: none;
@@ -234,13 +337,31 @@ button.accordion.active, button.accordion:hover {
 /* Style the accordion panel. Note: hidden by default */
 div.panel {
   position: fixed;
-    padding: 0 18px;
-    background-color: lightgrey;
-    display: none;
-    bottom: 0px;
-    right: 0px;
-    width: 500px;
-    height: 500px;
+  padding: 0 18px;
+  background-color: #a7c5da;
+  display: none;
+  bottom: 5px;
+  right: 5px;
+  width: 400px;
+  height: 600px;
+  z-index: 3;
+  /*overflow: scroll;*/
+  /*max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;*/
+}
+
+div.panelContent {
+  overflow:auto;
+  height:100%;
+}
+
+/*Style the image panel*/
+#imgPanel {
+  width:200px;
+  height:150px;
+  background-color: darkgrey;
+  display: none;
 }
 
   ul {
@@ -270,6 +391,12 @@ div.panel {
       padding: 0;
   }
 
+.testimg {
+  position: fixed;
+  top: 150px;
+  cursor: pointer;
+}
+
     </style>
 
 </head>
@@ -287,7 +414,7 @@ div.panel {
       <div class="floating">
         <div class="wrap">
           <div class="search">
-            <input id="keyword" type="text" class="searchTerm" placeholder=" What are you looking for?">
+            <input id="keyword" type="text" class="searchTerm" placeholder="  What are you looking for?">
             <button type="submit" class="searchButton">
               <i class="fa fa-search"></i>
             </button>
@@ -302,45 +429,34 @@ div.panel {
       <button class="tablinks" onclick="switchFilter(event, 'Videos')">Videos</button>
     </div>
 
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <span class="close" onclick="closeImagePanel()">&times;</span>
+      <img class="modal_content" id="img01">
+      <div id="caption"></div>
+    </div>
+
     <!-- Images Content -->
     <div id="Images" class="tabcontent">
 
-    <div class="floating-box"><img class="cover" src="https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Common-dog-behaviors-explained.jpg?itok=FSzwbBoi" alt="image" style="width:100%"></div>
-    <div class="floating-box"><img class="cover" src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg" alt="dog" style=""></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll001.jpg" alt="dogagain" style="object-fit: cover"></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll0015.jpg" alt="yetanotherdog" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="http://cdn2-www.dogtime.com/assets/uploads/2011/01/file_23244_what-is-the-appenzeller-sennenhunde-dog-300x189.jpg" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll000.jpg" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll004.jpg" style="object-fit:cover"></div>
+    <div class="floating-box"><img id="img1" class="cover" src="https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Common-dog-behaviors-explained.jpg?itok=FSzwbBoi" alt="image" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img2" class="cover" src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg" alt="dog" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img3" class="cover" src="https://www.what-dog.net/Images/faces2/scroll001.jpg" alt="dogagain" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img4" class="cover" src="https://www.what-dog.net/Images/faces2/scroll0015.jpg" alt="yetanotherdog" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img5" class="cover" src="http://cdn2-www.dogtime.com/assets/uploads/2011/01/file_23244_what-is-the-appenzeller-sennenhunde-dog-300x189.jpg" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img6" class="cover" src="https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img7" class="cover" src="https://www.what-dog.net/Images/faces2/scroll000.jpg" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img8" class="cover" src="https://www.what-dog.net/Images/faces2/scroll004.jpg" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
 
-    <div class="floating-box"><img class="cover" src="https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Common-dog-behaviors-explained.jpg?itok=FSzwbBoi" alt="image" style="width:100%"></div>
-    <div class="floating-box"><img class="cover" src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg" alt="dog" style=""></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll001.jpg" alt="dogagain" style="object-fit: cover"></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll0015.jpg" alt="yetanotherdog" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="http://cdn2-www.dogtime.com/assets/uploads/2011/01/file_23244_what-is-the-appenzeller-sennenhunde-dog-300x189.jpg" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll000.jpg" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll004.jpg" style="object-fit:cover"></div>
+    <div class="floating-box"><img id="img11" class="cover" src="https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Common-dog-behaviors-explained.jpg?itok=FSzwbBoi" alt="image" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img12" class="cover" src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg" alt="dog" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img13" class="cover" src="https://www.what-dog.net/Images/faces2/scroll001.jpg" alt="dogagain" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img14" class="cover" src="https://www.what-dog.net/Images/faces2/scroll0015.jpg" alt="yetanotherdog" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img15" class="cover" src="http://cdn2-www.dogtime.com/assets/uploads/2011/01/file_23244_what-is-the-appenzeller-sennenhunde-dog-300x189.jpg" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img16" class="cover" src="https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img17" class="cover" src="https://www.what-dog.net/Images/faces2/scroll000.jpg" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
+    <div class="floating-box"><img id="img18" class="cover" src="https://www.what-dog.net/Images/faces2/scroll004.jpg" style="width:100%; object-fit:cover" onclick="openImagePanel(this)" draggable="true" ondragstart="drag(event)" ondrop="return false" ondragover="return false"></div>
 
-    <div class="floating-box"><img class="cover" src="https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Common-dog-behaviors-explained.jpg?itok=FSzwbBoi" alt="image" style="width:100%"></div>
-    <div class="floating-box"><img class="cover" src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg" alt="dog" style=""></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll001.jpg" alt="dogagain" style="object-fit: cover"></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll0015.jpg" alt="yetanotherdog" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="http://cdn2-www.dogtime.com/assets/uploads/2011/01/file_23244_what-is-the-appenzeller-sennenhunde-dog-300x189.jpg" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll000.jpg" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll004.jpg" style="object-fit:cover"></div>
-
-    <div class="floating-box"><img class="cover" src="https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Common-dog-behaviors-explained.jpg?itok=FSzwbBoi" alt="image" style="width:100%"></div>
-    <div class="floating-box"><img class="cover" src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg" alt="dog" style=""></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll001.jpg" alt="dogagain" style="object-fit: cover"></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll0015.jpg" alt="yetanotherdog" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="http://cdn2-www.dogtime.com/assets/uploads/2011/01/file_23244_what-is-the-appenzeller-sennenhunde-dog-300x189.jpg" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll000.jpg" style="object-fit:cover"></div>
-    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll004.jpg" style="object-fit:cover"></div>
-    <!-- <div class="floating-box"><iframe id="test" width="420" height="315" src="https://www.youtube.com/embed/2J5GzHoKl1Q"></iframe> -->
     </div>
 
     <!-- Videos Content -->
@@ -353,13 +469,12 @@ div.panel {
 
     </div>
 
-  <!-- Notepad button -->
-  <div class="button">
-    <img id="button" src="../resources/PlusSign.png" alt="PlusSign" style="width:50px;height:50px;">
+  <!-- Notepad button & Notepad -->
+  <button class="accordion"><img src="../resources/PlusSign.png" alt="PlusSign" style="width:50px;height:50px;" onclick="notepad()"></button>
+  <div class="panel">
+    NOTEPAD
+    <div id="panelContent" class="panelContent" ondrop="drop(event, this)" ondragover="allowDrop(event)"></div>
   </div>
-
-  <button class="accordion"><img src="../resources/PlusSign.png" alt="PlusSign" style="width:50px;height:50px;"></button>
-  <div class="panel">STUFF</div>
 
 </body>
 </html>
