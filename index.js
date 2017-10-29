@@ -7,13 +7,20 @@ var bodyParser = require('body-parser');
 //Note that in version 4 of express, express.bodyParser() was
 //deprecated in favor of a separate 'body-parser' module.
 
+var result;
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.post('/action', function(req, res) {
 	console.log("test+++++++++++++++++++++++++++++++++++++++++++++++");
 	console.log(req.body.word);
-	res.send("test");
+	bing_image_search(req.body.word);
+	for (var i = 0; i < result.length; i++) {
+        result[i] = result[i].contentUrl;
+    }
+    
+	res.send(result);
  	//	console.log('You sent the name "' + req.body.name + '".');
 });
 
@@ -60,8 +67,9 @@ let response_handler = function (response) {
         // console.log('\nJSON Response:\n');
         //console.log(body.value);
         for (var i = 0; i < body.value.length; i++) {
-            //console.log(body.value[i].contentUrl);
+            console.log(body.value[i].contentUrl);
         }
+        result = body.value;
         //console.log(body.value[0].contentUrl);
     });
     response.on('error', function (e) {
