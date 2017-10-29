@@ -3,24 +3,25 @@ var app = express();
 var http = require('http').Server(app);
 var port = process.env.PORT || 3000;
 var bodyParser = require('body-parser');
-
-//Note that in version 4 of express, express.bodyParser() was
-//deprecated in favor of a separate 'body-parser' module.
-
+var google = require('googleapis');
+var API_KEY = 'AIzaSyDONLs1uaIFJZ35I33XPI21BdaQccYKa3s'; // specify your API key here
 var result;
+var videoArr = [];
+var arr;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-app.post('/action', function(req, res) {
-	console.log(req.body.word);
+app.post('', function(req, res) {
+	//console.log(req.body.word);
 	bing_image_search(req.body.word);
 	for (var i = 0; i < result.length; i++) {
         result[i] = result[i].contentUrl;
     }
-    
-	res.send(result);
- 	//	console.log('You sent the name "' + req.body.name + '".');
+    search(req.body.word);
+    arr = {"image": result, "video": videoArr };
+    hostResources(arr);
+	//res.send(arr);
 });
 
 app.use(express.static(__dirname + '/public'));
@@ -30,6 +31,40 @@ app.get('/',function(req,res) {
 });
 
 app.listen(port);
+
+// Youtube API
+// Search for a specified string.
+function search(keyword) {
+  var q = keyword;
+  var request = google.youtube('v3');
+  request.search.list({
+    key: API_KEY,
+    q: q,
+    type: 'video',
+    part: 'snippet'
+  }, function(err, response) {
+    if (err) {
+      console.log('The API returned an error: ' + err);
+      return;
+    }
+    var videos = response.items;
+    if (videos.length == 0) {
+      console.log('No videos found.');
+    } else {
+      for(var a = 0; a < videos.length; a++) {
+          videoArr[a] = videos[a].id.videoId;
+      }
+    }
+});
+}
+
+function hostResources(dictionary) {
+    app.get('/resources', function(req, res){
+      res.send(dictionary);
+    });
+}
+search();
+
 
 'use strict';
 
@@ -57,17 +92,7 @@ let response_handler = function (response) {
         body += d;
     });
     response.on('end', function () {
-        // console.log('\nRelevant Headers:\n');
-        // for (var header in response.headers)
-            // header keys are lower-cased by Node.js
-            // if (header.startsWith("bingapis-") || header.startsWith("x-msedge-"))
-            //      console.log(header + ": " + response.headers[header]);
         body = JSON.parse(body);
-        // console.log('\nJSON Response:\n');
-        //console.log(body.value);
-        for (var i = 0; i < body.value.length; i++) {
-            console.log(body.value[i].contentUrl);
-        }
         result = body.value;
         //console.log(body.value[0].contentUrl);
     });
@@ -103,44 +128,3 @@ if (subscriptionKey.length === 32) {
     console.log('Invalid Bing Search API subscription key!');
     console.log('Please paste yours into the source code.');
 }
-
-// Youtube API
-//Authentication
-var google = require('googleapis');
-
-var API_KEY = 'AIzaSyDONLs1uaIFJZ35I33XPI21BdaQccYKa3s'; // specify your API key here
-
-var src = "";
-// Search for a specified string.
-function search() {
-  var q = 'dogs';
-  var request = google.youtube('v3');
-  request.search.list({
-    key: API_KEY,
-    q: q,
-    type: 'video',
-    part: 'snippet'
-  }, function(err, response) {
-    if (err) {
-      console.log('The API returned an error: ' + err);
-      return;
-    }
-    var videos = response.items;
-    if (videos.length == 0) {
-      console.log('No videos found.');
-    } else {
-      var id = videos[0].id.videoId;
-      //console.log(id);
-      src = 'https://www.youtube.com/embed/' + id;
-      console.log(src);
-    }
-});
-}
-
-function hostVideo() {
-    app.get('/video', function(req, res){
-      res.send(src);
-    });
-}
-hostVideo();
-search();
