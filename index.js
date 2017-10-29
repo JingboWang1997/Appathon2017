@@ -13,7 +13,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.post('/action', function(req, res) {
-	console.log("test+++++++++++++++++++++++++++++++++++++++++++++++");
 	console.log(req.body.word);
 	bing_image_search(req.body.word);
 	for (var i = 0; i < result.length; i++) {
