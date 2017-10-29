@@ -76,8 +76,8 @@ app.post('', function(req, res) {
     res.setHeader('Access-Control-Allow-Credentials', true);
 	bing_image_search(req.body.word);
     search(req.body.word);
-    //console.log("test: " + result);
-    //console.log("test2: "+ videoArr);
+    // console.log("test: " + result);
+    // console.log("test2: "+ videoArr);
     // console.log(videos);
     // for (var a = 0; a < videos.length; a++) {
     //     videoArr[a] = videos[a].id.videoId;
@@ -90,7 +90,8 @@ app.post('', function(req, res) {
     // console.log(result);
     // console.log(videoArr);
     //hostResources(arr);
-    //res.sendFile(__dirname + '/public/views/index.html');
+    //res.send("");
+    return;
 });
 
 app.use(express.static(__dirname + '/public'));
