@@ -16,6 +16,12 @@
         js.src = "//assets.pinterest.com/sdk/sdk.js";
         pjs.parentNode.insertBefore(js, pjs);
     }(document, 'script', 'pinterest-jssdk'));
+
+    function switchFilter(evt, filter) {
+      var i, tabcontent, tablinks;
+      // tabcontent = document.get
+    }
+
 </script>
 
 <html lang="en">
@@ -39,7 +45,7 @@
   }
 
   .button {
-      position: absolute;
+      position: fixed;
       bottom: 0;
       right: 0;
   }
@@ -102,11 +108,18 @@
   .floating-box {
     display: inline-block;
     width: 200px;
-    height: 200px;
+    /*height: 200px;*/
     margin: 10px;
-    /*object-fit: cover;*/
+    /*object-fit: fill;*/
+    overflow: hidden;
     /*border: 3px solid #73AD21;*/
 }
+
+  .cover {
+    width:192px;
+    height:108px;
+    object-fit: fill;
+  }
 
   ul {
       list-style-type: none;
@@ -126,7 +139,7 @@
       /*cursor: pointer;*/
   }
 
-  li a:hover {
+  li:hover {
       background-color: #111;
   }
 
@@ -150,7 +163,7 @@
       <div class="floating">
         <div class="wrap">
           <div class="search">
-            <input type="text" class="searchTerm" placeholder="What are you looking for?">
+            <input id="keyword" type="text" class="searchTerm" placeholder=" What are you looking for?">
             <button type="submit" class="searchButton">
               <i class="fa fa-search"></i>
             </button>
@@ -165,17 +178,58 @@
       <li>Videos</li>
     </ul>
 
-    <div class="floating-box"><img src="https://www.w3schools.com/images/w3schools_green.jpg" alt="image" style="width:100px"></div>
-    <div class="floating-box"><img src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg" alt="dog" style="width:100px; object-fit:cover"></div>
-    <div class="floating-box">Floating box</div>
-    <div class="floating-box">Floating box</div>
-    <div class="floating-box">Floating box</div>
-    <div class="floating-box">Floating box</div>
-    <div class="floating-box">Floating box</div>
-    <div class="floating-box">Floating box</div>
+    <div class="tab">
+      <button class="tablinks" onclick="switchFilter(event, 'Images')">Images</button>
+      <button class="tablinks" onclick="switchFilter(event, 'Videos')">Videos</button>
+    </div>
+
+    <div id="Images" class="tabcontent">
+
+    <div class="floating-box"><img class="cover" src="https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Common-dog-behaviors-explained.jpg?itok=FSzwbBoi" alt="image" style="width:100%"></div>
+    <div class="floating-box"><img class="cover" src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg" alt="dog" style=""></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll001.jpg" alt="dogagain" style="object-fit: cover"></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll0015.jpg" alt="yetanotherdog" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="http://cdn2-www.dogtime.com/assets/uploads/2011/01/file_23244_what-is-the-appenzeller-sennenhunde-dog-300x189.jpg" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll000.jpg" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll004.jpg" style="object-fit:cover"></div>
+
+    <div class="floating-box"><img class="cover" src="https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Common-dog-behaviors-explained.jpg?itok=FSzwbBoi" alt="image" style="width:100%"></div>
+    <div class="floating-box"><img class="cover" src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg" alt="dog" style=""></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll001.jpg" alt="dogagain" style="object-fit: cover"></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll0015.jpg" alt="yetanotherdog" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="http://cdn2-www.dogtime.com/assets/uploads/2011/01/file_23244_what-is-the-appenzeller-sennenhunde-dog-300x189.jpg" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll000.jpg" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll004.jpg" style="object-fit:cover"></div>
+
+    <div class="floating-box"><img class="cover" src="https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Common-dog-behaviors-explained.jpg?itok=FSzwbBoi" alt="image" style="width:100%"></div>
+    <div class="floating-box"><img class="cover" src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg" alt="dog" style=""></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll001.jpg" alt="dogagain" style="object-fit: cover"></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll0015.jpg" alt="yetanotherdog" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="http://cdn2-www.dogtime.com/assets/uploads/2011/01/file_23244_what-is-the-appenzeller-sennenhunde-dog-300x189.jpg" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll000.jpg" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll004.jpg" style="object-fit:cover"></div>
+
+    <div class="floating-box"><img class="cover" src="https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Common-dog-behaviors-explained.jpg?itok=FSzwbBoi" alt="image" style="width:100%"></div>
+    <div class="floating-box"><img class="cover" src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg" alt="dog" style=""></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll001.jpg" alt="dogagain" style="object-fit: cover"></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll0015.jpg" alt="yetanotherdog" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="http://cdn2-www.dogtime.com/assets/uploads/2011/01/file_23244_what-is-the-appenzeller-sennenhunde-dog-300x189.jpg" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll000.jpg" style="object-fit:cover"></div>
+    <div class="floating-box"><img class="cover" src="https://www.what-dog.net/Images/faces2/scroll004.jpg" style="object-fit:cover"></div>
+
+    </div>
+
+    <div id="Videos" class="tabcontent">
+        <p>Insert Videos</p>
+    </div>
 
   <div class="button">
     <img id="button" src="../resources/PlusSign.png" alt="PlusSign" style="width:50px;height:50px;">
   </div>
+
 </body>
 </html>
