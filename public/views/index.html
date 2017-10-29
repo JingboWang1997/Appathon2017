@@ -1,7 +1,59 @@
 <!DOCTYPE html>
 
-<script src="../controls/libraries/jquery-3.2.1.min.js"></script>
+
+<script>
+    window.pAsyncInit = function() {
+        PDK.init({
+            appId: "4930953034099344487", // Change this
+            cookie: true
+        });
+    };
+
+    (function(d, s, id){
+        var js, pjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//assets.pinterest.com/sdk/sdk.js";
+        pjs.parentNode.insertBefore(js, pjs);
+    }(document, 'script', 'pinterest-jssdk'));
+
+    // Tab switching
+    function switchFilter(evt, filter) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(filter).style.display = "block";
+      evt.currentTarget.className += " active";
+      // document.getElementById("defaultOpen").click();
+
+      // Opening/Closing Notepad
+      var acc = document.getElementsByClassName("accordion");
+      var i;
+
+      for (i = 0; i < acc.length; i++) {
+        acc[i].onclick = function() {
+          this.classList.toggle("active");
+
+          var panel = this.nextElementSibling;
+          if (panel.style.display === "block") {
+            panel.style.display = "none";
+          } else {
+            panel.style.display = "block";
+          }
+        }
+      }
+    }
+
+</script>
+
 <script src="../controls/event.js"></script>
+<script src="../controls/libraries/jquery-3.2.1.min.js"></script>
 
 <html lang="en">
 
